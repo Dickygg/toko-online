@@ -3,8 +3,10 @@
 namespace App\Http\Controllers;
 
 use App\Models\kategori;
+use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Carbon;
 // use App\Http\Requests\StorekategoriRequest;
 // use App\Http\Requests\UpdatekategoriRequest;
 
@@ -86,5 +88,38 @@ class KategoriController extends Controller
         $kategori = kategori::findOrFail($id);
         $kategori->delete();
         return redirect()->route('backend.kategori.index')->with('succes', 'Data Berhasil Dihapus!');
+    }
+
+    public function formkategori()
+    {
+        return view('backend.v-kategori.formkategori', [
+            'judul' => 'Cetak Laporan Kategori'
+        ]);
+    }
+
+    public function cetakLaporanKategori(Request $request)
+    {
+        $request->validate([
+            'tanggal_awal' => 'required|date',
+            'tanggal_akhir' => 'required|date|after_or_equal:tanggal_awal'
+        ], [
+            'tanggal_awal.required' => 'Tanggal Harus Diisi!',
+            'tanggal_akhir.required' => 'Tanggal Harus Diisi!',
+            'tanggal_akhir.after_or_equal' => 'Tanggal Harus Sama Atau Lebih Dari Tanggal Awal!'
+        ]);
+
+        $tanggalawal = Carbon::parse($request->input('tanggal_awal'))->startOfDay();
+        $tanggalakhir = Carbon::parse($request->input('tanggal_akhir'))->endOfDay();
+
+        $query = kategori::whereBetween('created_at', [$tanggalawal, $tanggalakhir])->orderBy('id', 'desc');
+        $kategori = $query->get();
+
+
+        return view('backend.v-hasilLaporan.cetakKategori', [
+            'judul' => 'Laporan Kategori',
+            'tanggalAwal' => $tanggalawal,
+            'tanggalAkhir' => $tanggalakhir,
+            'cetak' => $kategori
+        ]);
     }
 }

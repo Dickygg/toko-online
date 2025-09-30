@@ -9,7 +9,7 @@ use Illuminate\Database\Eloquent\Model;
 
 class kategori extends Model
 {
-    public $timestamps = false;
+    public $timestamps = true;
     protected $table = 'kategori';
     protected $guarded = ['id'];
 }
