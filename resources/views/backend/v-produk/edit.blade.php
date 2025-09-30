@@ -1,0 +1,139 @@
+@extends('backend.v-layout.app')
+@section('content')
+
+<!-- contentAwal -->
+<div class="container-fluid">
+    <div class="row">
+        <div class="col-12">
+            <div class="card">
+                <form action="{{ route('backend.produk.update', $produk->id) }}"
+                    method="post" enctype="multipart/form-data">
+                    @method('put')
+                    @csrf
+                    <div class="card-body">
+                        <h4 class="card-title"> {{$judul}} </h4>
+                        <div class="row">
+                            <div class="col-md-4">
+                                <div class="form-group">
+                                    <label>Foto</label>
+                                    {{-- view image --}}
+                                    @if ($produk->foto)
+                                    <img src="{{ asset('storage/img-produk/' . $produk->foto)}}" class="foto-preview" width="100%">
+                                    <p></p>
+                                    @else
+                                    <img src="{{ asset('storage/img-produk/imgdefault.jpg') }}" class="foto-preview" width="100%">
+                                    @endif
+                                    <p></p>
+                                    {{-- file foto --}}
+                                    <input type="file" name="foto" class="form-control @error('foto') is-invalid @enderror" onchange="previewFoto()">
+                                    @error('foto')
+                                    <div class="invalid-feedback alert-danger">{{$message}}</div>
+                                    @enderror
+                                </div>
+                            </div>
+                            <div class="col-md-8">
+                                <div class="form-group">
+                                    <label>Status</label>
+                                    <select name="status" class="form-control @error('status') is-invalid @enderror">
+                                        <option value="" {{ old('status', $produk->status) == '' ? 'selected' : '' }}> -
+                                            Pilih Status -</option>
+                                        <option value="1" {{ old('status', $produk->status) == '1' ? 'selected' : '' }}>
+                                            Public</option>
+                                        <option value="0" {{ old('status', $produk->status) == '0' ? 'selected' : '' }}>
+                                            Blok</option>
+                                    </select>
+                                    @error('status')
+                                    <span class="invalid-feedback alert-danger"
+                                        role="alert">
+                                        {{ $message }}
+                                    </span>
+                                    @enderror
+                                </div>
+                                <div class="form-group">
+                                    <label>Kategori</label>
+                                    <select name="kategori_id" class="form-control @error('kategori_id') is-invalid @enderror">
+                                        <option value="" selected> - Pilih Katagori -
+                                        </option>
+                                        @foreach ($kategori as $row)
+                                        <option value="{{ $row->id }}"
+                                            {{ old('kategori_id', $produk->kategori_id) == $row->id ? 'selected' : '' }}>
+                                            {{ $row->nama_kategori }}
+                                        </option>
+                                        @endforeach
+                                    </select>
+                                    @error('kategori_id')
+                                    <span class="invalid-feedback alert-danger"
+                                        role="alert">
+                                        {{ $message }}
+                                    </span>
+                                    @enderror
+                                </div>
+                                <div class="form-group">
+                                    <label>Nama Produk</label>
+                                    <input type="text" name="nama_produk" value="{{old('nama_produk',$produk->nama_produk) }}" class="form-control @error('nama_produk') isinvalid @enderror" placeholder="Masukkan Nama Prod">
+                                    @error('nama_produk')
+                                    <span class="invalid-feedback alert-danger"
+                                        role="alert">
+                                        {{ $message }}
+                                    </span>
+                                    @enderror
+                                </div>
+                                <div class="form-group">
+                                    <label>Detail</label><br>
+                                    <textarea name="detail" class="form-control @error('detail') is-invalid @enderror" id="ckeditor">{{ old('detail',$produk->detail)}}</textarea>
+                                    @error('detail')
+                                    <span class="invalid-feedback alert-danger"
+                                        role="alert">
+                                        {{ $message }}
+                                    </span>
+                                    @enderror
+                                </div>
+                                <div class="form-group">
+                                    <label>Harga</label>
+                                    <input type="text" onkeypress="return hanyaAngka(event)" name="harga" value="{{ old('harga',$produk->harga) }}" class="form-control @error('harga') is-invalid @enderror" placeholder="Masukkan Harga Produk">
+                                    @error('harga')
+                                    <span class="invalid-feedback alert-danger"
+                                        role="alert">
+                                        {{ $message }}
+                                    </span>
+                                    @enderror
+                                </div>
+                                <div class="form-group">
+                                    <label>Berat</label>
+                                    <input type="text" onkeypress="return hanyaAngka(event)" name="berat" value="{{ old('berat', $produk->berat) }}" class="form-control @error('berat') is-invalid @enderror" placeholder="Masukkan Berat Produk">
+                                    @error('berat')
+                                    <span class="invalid-feedback alert-danger"
+                                        role="alert">
+                                        {{ $message }}
+                                    </span>
+                                    @enderror
+                                </div>
+                                <div class="form-group">
+                                    <label>Stok</label>
+                                    <input type="text" onkeypress="return hanyaAngka(event)" name="stock" value="{{ old('stok',$produk->stock) }}" class="form-control @error('stock') is-invalid @enderror" placeholder="Masukkan Stok Produk">
+                                    @error('stock')
+                                    <span class="invalid-feedback alert-danger"
+                                        role="alert">
+                                        {{ $message }}
+                                    </span>
+                                    @enderror
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="border-top">
+                        <div class="card-body">
+                            <button type="submit" class="btn btnprimary">Perbaharui</button>
+                            <a href="{{ route('backend.produk.index') }}">
+                                <button type="button" class="btn btnsecondary">Kembali</button>
+                            </a>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- contentAkhir -->
+@endsection

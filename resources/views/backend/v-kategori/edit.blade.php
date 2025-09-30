@@ -1,0 +1,44 @@
+@extends('backend.v-layout.app')
+@section('content')
+<!-- contentAwal -->
+<div class="container-fluid">
+    <div class="row">
+        <div class="col-12">
+            <div class="card">
+                <form action="{{ route('backend.kategori.update', $kategori->id) }}" method="post"
+                    enctype="multipart/form-data">
+                    @method('put')
+                    @csrf
+                    <div class="card-body">
+                        <h4 class="card-title"> {{$judul}} </h4>
+                        <div class="row">
+                            <div class="col">
+                                <div class="form-group">
+                                    <label>Nama Kategori</label>
+                                    <input type="text" name="nama_kategori" value="{{ old('nama_kategori', $kategori->nama_kategori) }}" class="form-control @error('nama_kategori') is-invalid @enderror"
+                                        placeholder="Masukkan Nama kategori">
+                                    @error('nama_kategori')
+                                    <span class="invalid-feedback alert-danger"
+                                        role="alert">
+                                        {{ $message }}
+                                    </span>
+                                    @enderror
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="border-top">
+                        <div class="card-body">
+                            <button type="submit" class="btn btnprimary">Perbaharui</button>
+                            <a href="{{ route('backend.kategori.index') }}">
+                                <button type="button" class="btn btnsecondary">Kembali</button>
+                            </a>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- contentAkhir -->
+@endsection
