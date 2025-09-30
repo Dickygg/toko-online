@@ -30,4 +30,6 @@ Route::middleware(['auth'])->group(function () {
 
     Route::get('backend/laporan/formuser', [UserController::class, 'fromUser'])->name('backend.laporan.formuser');
     Route::post('backend/laporan/cetakuser', [UserController::class, 'cetaklaporanUser'])->name('backend.laporan.cetakuser');
+    Route::get('backend/laporan/formkategori', [KategoriController::class, 'formkategori'])->name('backend.laporan.formkategori');
+    Route::post('backend/laporan/cetakkategori', [KategoriController::class, 'cetaklaporankategori'])->name('backend.laporan.cetakkategori');
 });

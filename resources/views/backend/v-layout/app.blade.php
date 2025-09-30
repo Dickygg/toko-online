@@ -160,7 +160,7 @@
                         <li class="sidebar-item"> <a class="sidebar-link has-arrow waves-effect waves-dark" href="javascript:void(0)" aria-expanded="false"><i class="mdi mdi-database"></i><span class="hide-menu">Buat Laporan</span></a>
                             <ul aria-expanded="false" class="collapse  first-level">
                                 <li class="sidebar-item"><a href="{{route('backend.laporan.formuser')}}" class="sidebar-link"><i class="mdi mdi-note-outline"></i><span class="hide-menu"> Users </span></a></li>
-                                <li class="sidebar-item"><a href="{{route('backend.produk.index')}}" class="sidebar-link"><i class="mdi mdi-note-plus"></i><span class="hide-menu"> Produk </span></a></li>
+                                <li class="sidebar-item"><a href="{{route('backend.laporan.formkategori')}}" class="sidebar-link"><i class="mdi mdi-note-plus"></i><span class="hide-menu"> Kategori </span></a></li>
                             </ul>
                         </li>
                     </ul>
